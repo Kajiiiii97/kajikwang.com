@@ -15,6 +15,7 @@
 
   function apply(f) {
     if (busy) return;
+    tiles.forEach(function (t) { t.classList.add('in'); t.style.transitionDelay = ''; });
     var leaving = tiles.filter(function (t) { return !t.hidden && !fits(t, f); });
     var entering = tiles.filter(function (t) { return t.hidden && fits(t, f); });
     var first = new Map();
@@ -106,4 +107,14 @@
     if (e.key === 'ArrowLeft') show(i - 1);
     if (e.key === 'ArrowRight') show(i + 1);
   });
+})();
+
+// back button on project pages: return to the project you were last looking at on the front page
+(function () {
+  var b = document.querySelector('a.back');
+  if (!b) return;
+  try {
+    var at = sessionStorage.getItem('kaji-at');
+    if (at && /^p-[\w-]+$/.test(at)) b.href = b.href.split('#')[0] + '#' + at;
+  } catch (e) {}
 })();
