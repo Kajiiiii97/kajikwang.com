@@ -71,7 +71,6 @@
     try { sessionStorage.setItem('kaji-at', id); } catch (err) {}
     Object.keys(links).forEach(function (k) { links[k].classList.toggle('on', k === id); });
     var a = links[id];
-    if (cur) cur.textContent = a ? a.textContent.replace(/^\d+/, '') : 'projects';
     if (a && !narrow.matches) {
       var box = a.closest('.side');
       var r2 = a.getBoundingClientRect(), b = box.getBoundingClientRect();
@@ -83,12 +82,17 @@
   window.addEventListener('resize', markActive);
 
   // on a phone the list folds away after you pick a project
-  function fold() { if (list) list.open = !narrow.matches; }
-  fold();
-  if (narrow.addEventListener) narrow.addEventListener('change', fold);
-  document.querySelectorAll('.slist a').forEach(function (a) {
-    a.addEventListener('click', function () { if (narrow.matches && list) list.open = false; });
-  });
+  if (list) list.open = true;
+  // phone menu: the project list slides down as a soft sheet
+  var mbtn = document.querySelector('.mbtn');
+  function menu(on) {
+    document.body.classList.toggle('menu-open', on);
+    if (mbtn) { mbtn.setAttribute('aria-expanded', on ? 'true' : 'false'); mbtn.querySelector('.ml').textContent = on ? 'close' : 'menu'; }
+  }
+  if (mbtn) mbtn.addEventListener('click', function () { menu(!document.body.classList.contains('menu-open')); });
+  document.querySelectorAll('.slist a, .snav a').forEach(function (a) { a.addEventListener('click', function () { menu(false); }); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') menu(false); });
+  if (narrow.addEventListener) narrow.addEventListener('change', function () { if (!narrow.matches) menu(false); });
 
   // sidebar filters: other projects fade out and fold away
   var btns = document.querySelectorAll('.sfilt button');
@@ -144,7 +148,7 @@
   var fading = null;
   function veil() {
     fading = null;
-    if (narrow.matches || calm) return;
+    if (calm) return;
     var hh = headH || 83, vh = window.innerHeight - hh;
     projs.forEach(function (s) {
       if (s.classList.contains('gone')) return;
@@ -160,13 +164,13 @@
   function clearVeil() { projs.forEach(function (s) { s.firstElementChild.style.opacity = ''; s.firstElementChild.style.transform = ''; }); }
   function queueVeil() { if (!fading) fading = requestAnimationFrame(veil); }
   window.addEventListener('scroll', queueVeil, { passive: true });
-  window.addEventListener('resize', function () { if (narrow.matches) clearVeil(); else queueVeil(); });
+  window.addEventListener('resize', queueVeil);
   btns.forEach(function (b) { b.addEventListener('click', function () { setTimeout(queueVeil, 650); setTimeout(queueVeil, 1400); }); });
   veil();
 
   // paging: on a big screen every scroll gesture glides exactly one screen, never stopping in between
   var headH = 83, anim = null, lastT = -1e9, lastD = 0, held = false, settleT = null;
-  function measureHead() { var h = document.querySelector('.home2 > .wrap'); headH = h ? h.getBoundingClientRect().height : 83; }
+  function measureHead() { var h = document.querySelector('.home2 > .wrap'); headH = h ? h.getBoundingClientRect().height : 83; root.style.setProperty('--hh', headH + 'px'); }
   measureHead();
   function stops() {
     var max = document.documentElement.scrollHeight - window.innerHeight;
@@ -360,7 +364,7 @@
     var e = ease(Math.min(1, c0 * 1.15));
     tiles.forEach(function (t, i) {
       var d = dirs[i]; if (!d) return;
-      var dist = 140 * e * d.w;
+      var dist = Math.min(140, window.innerWidth * 0.16) * e * d.w;
       t.style.transform = 'translate(' + (d.x * dist).toFixed(1) + 'px,' + (d.y * dist).toFixed(1) + 'px) rotate(' + (d.s * e).toFixed(2) + 'deg) scale(' + (1 - 0.06 * e).toFixed(3) + ')';
       t.style.opacity = (1 - e).toFixed(3);
       t.style.pointerEvents = e > 0.6 ? 'none' : '';
@@ -373,7 +377,6 @@
     raf = c0 === target ? null : requestAnimationFrame(draw);
   }
   function onScroll() {
-    if (narrow.matches) return;
     var total = cover.offsetHeight - window.innerHeight * 0.6;
     target = Math.max(0, Math.min(1, window.scrollY / Math.max(1, total)));
     if (!raf) raf = requestAnimationFrame(draw);
