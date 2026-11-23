@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Empowering VLMs with 3D Spatial Insight: Kwang Kai Jie (Kaji)</title>
+<meta name="description" content="The aim of this project is to improve the spatial understanding capabilities of Visual Language Models (VLMs) when processing 2D images by providing additi">
+<meta property="og:title" content="Empowering VLMs with 3D Spatial Insight: Kwang Kai Jie (Kaji)">
+<meta property="og:description" content="The aim of this project is to improve the spatial understanding capabilities of Visual Language Models (VLMs) when processing 2D images by providing additi">
+<meta property="og:image" content="https://www.kajikwang.com/assets/thumbs/empowering-vlms-with-3d-spatial-insight.webp">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/style.css">
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+<a class="brand" href="../../../index.html"><span class="sq" aria-hidden="true"></span>Kwang Kai Jie</a>
+<nav aria-label="Main"><a href="../../../index.html" class="on">work</a><a href="../../../about.html">about</a><a href="../../../about.html#contact">contact</a></nav>
+</header>
+<main class="proj">
+<p class="crumb"><a href="../../../index.html">← all work</a><span class="tag"><span class="pd" aria-hidden="true"></span>research</span></p>
+<h1>Empowering VLMs with 3D Spatial Insight</h1>
+
+<figure class="herofig"><img src="../../../assets/img/empowering-vlms-with-3d-spatial-insight/00.webp" alt="Empowering VLMs with 3D Spatial Insight" width="1280" height="926" data-full="../../../assets/img/empowering-vlms-with-3d-spatial-insight/00.webp"></figure>
+<section class="pbody">
+<dl class="facts"><div><dt>context</dt><dd>ITECH</dd></div><div><dt>year</dt><dd>2025</dd></div><div><dt>type</dt><dd>research</dd></div></dl>
+<div class="txt"><p>The aim of this project is to improve the spatial understanding capabilities of Visual Language Models (VLMs) when processing 2D images by providing additional geometric information derived from segmented point-cloud data.  To enhance the spatial understanding of a Visual Language Model we developed a workflow that combines multiple existing models in the areas of depth image generation, Natural Language processing and 3D semantic segmentation to improve geometric understanding of objects in a space. The workflow begins by generating a depth map from a 2D image, which is then used to create a 3D point cloud that is subsequently segmented and labeled. This segmented point cloud, along with additional geometric data such as bounding boxes and center points of the segments, is fed into the visual language model. The inclusion of geometric data enhances the language model’s spatial understanding, enabling it to provide more accurate and context-specific responses when queried about the 3D scene. Including Retrieval Augmented Generation (RAG) as additional input to the VLM, tailored to the architectural task can provide the model with more, in depth understanding of the relationship of the measurements and their significance for the task. However, due to a number of problems like the need to switch between different operating systems, computing power and time, it wasn’t possible to get this workflow running. Therefore a workaround was developed, where instead of the 3D Segmentation model, a combination of different substitution steps is implemented. This method is explained in more detail in the following.</p><p>To test the efficiency of our method, the initial sample photo was tested again with ChatGPT. This time, the additional information of the Measurement Dictionary and the background knowledge from the RAG were added. Initial results showed that the model was much more successful in the X axis than it was in the Y axis when the 3D point cloud was compared with the measured floor plan, with 97% accuracy in the X axis and only 34% in the Y axis. This can be also observed by overlaying the point clouds with the ground truth floorplan of the scene (figure x). However, after further exploration, it was found that images taken at more chest level (middle level) showed these accuracies while pictures taken from higher up (eye level) showed better accuracy in the Y axis. An interesting observation was that online ChatGPT tried to establish the spatial relationship with the help of segmentation and bounding boxes (figure x), but the results were completely wrong.</p><p>Refining the text prompt and asking about changes, the VLM could also give some quantitative answers on how to move furniture to achieve, in this example, wheelchair accessibility. Testing the workflow on the programmed Multi-Agent System was not successful and did not give qualitative good answers to the question. It was able to provide good information about the wheelchair accessibility but did not process the raw values of the dictionary correctly.</p></div>
+</section>
+
+<section class="gallery"><figure class="g wide"><img src="../../../assets/img/empowering-vlms-with-3d-spatial-insight/01.webp" alt="Empowering VLMs with 3D Spatial Insight, image 2" width="959" height="540" loading="lazy" data-full="../../../assets/img/empowering-vlms-with-3d-spatial-insight/01.webp"></figure><figure class="g wide"><img src="../../../assets/img/empowering-vlms-with-3d-spatial-insight/02.webp" alt="Empowering VLMs with 3D Spatial Insight, image 3" width="1280" height="721" loading="lazy" data-full="../../../assets/img/empowering-vlms-with-3d-spatial-insight/02.webp"></figure><figure class="g wide"><img src="../../../assets/img/empowering-vlms-with-3d-spatial-insight/03.webp" alt="Empowering VLMs with 3D Spatial Insight, image 4" width="1280" height="824" loading="lazy" data-full="../../../assets/img/empowering-vlms-with-3d-spatial-insight/03.webp"></figure><figure class="g wide"><img src="../../../assets/img/empowering-vlms-with-3d-spatial-insight/04.webp" alt="Empowering VLMs with 3D Spatial Insight, image 5" width="839" height="540" loading="lazy" data-full="../../../assets/img/empowering-vlms-with-3d-spatial-insight/04.webp"></figure><figure class="g wide"><img src="../../../assets/img/empowering-vlms-with-3d-spatial-insight/05.webp" alt="Empowering VLMs with 3D Spatial Insight, image 6" width="960" height="540" loading="lazy" data-full="../../../assets/img/empowering-vlms-with-3d-spatial-insight/05.webp"></figure><figure class="g wide"><img src="../../../assets/img/empowering-vlms-with-3d-spatial-insight/06.webp" alt="Empowering VLMs with 3D Spatial Insight, image 7" width="960" height="540" loading="lazy" data-full="../../../assets/img/empowering-vlms-with-3d-spatial-insight/06.webp"></figure></section>
+<nav class="pn" aria-label="More projects">
+<a href="../../../projects/product-design/infectious-collaboration-pavilion/index.html"><span class="sub">previous</span>Infectious Collaboration Pavilion</a>
+<a class="nx" href="../../../projects/research/robot-based-remote-material-deposition/index.html"><span class="sub">next</span>Robot Based Remote Material Deposition</a>
+</nav>
+</main>
+<dialog class="lb" aria-label="Image viewer"><button class="lbx" aria-label="Close">close</button><button class="lbp" aria-label="Previous image">←</button><img alt=""><button class="lbn" aria-label="Next image">→</button></dialog>
+<script src="../../../assets/site.js"></script>
+<footer class="foot" id="contact">
+<a href="mailto:kajikwang@gmail.com">kajikwang@gmail.com</a>
+<span class="soc"><a href="https://www.linkedin.com/in/kwangkaijie/">linkedin</a><a href="https://www.instagram.com/sdcarddump/">instagram</a><a href="https://github.com/Kajiiiii97">github</a></span>
+</footer>
+</div>
+</body>
+</html>
