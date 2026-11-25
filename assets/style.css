@@ -24,6 +24,7 @@ a:hover{color:var(--accent-ink)}
 .top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding:30px 0;border-bottom:1px solid var(--rule);font-size:13px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .sq{width:11px;height:11px;background:var(--accent);display:inline-block}
+.brand .cat{height:17px;width:auto;flex:none;color:var(--accent);overflow:visible}
 .top nav{display:flex;gap:32px;flex-wrap:wrap}
 .top nav a{text-decoration:none}
 .top nav a.on{color:var(--accent-ink)}

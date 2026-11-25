@@ -68,6 +68,7 @@
     }
     if (id === activeId) return;
     activeId = id;
+    setGlow(id === 'cover' ? null : document.getElementById(id));
     try { sessionStorage.setItem('kaji-at', id); } catch (err) {}
     Object.keys(links).forEach(function (k) { links[k].classList.toggle('on', k === id); });
     var a = links[id];
@@ -77,6 +78,32 @@
       if (r2.top < b.top + 120 || r2.bottom > b.bottom - 20) box.scrollTo({ top: box.scrollTop + r2.top - b.top - b.height / 2, behavior: 'smooth' });
     }
   }
+  // the glow behind the glass card: the project's own colour, centred on its card,
+  // feathered out to the edges of the tiles. two layers so one colour can fade into the next
+  var glows = Array.prototype.slice.call(document.querySelectorAll('.glow')), gi = 0, glowFor = null;
+  function glowCss(sec) {
+    var c = sec.getAttribute('data-glow'); if (!c) return '';
+    var hdr = document.querySelector('.home2 > .wrap').getBoundingClientRect().height;
+    var pt = sec.querySelector('.pt'), area = sec.querySelector('.pg') || sec;
+    var r = pt.getBoundingClientRect(), s = sec.getBoundingClientRect(), a = area.getBoundingClientRect();
+    var cx = r.left + r.width / 2, cy = hdr + (r.top - s.top) + r.height / 2;
+    var rx = Math.max(320, a.width * 0.56), ry = Math.max(260, (window.innerHeight - hdr) * 0.52);
+    var core = Math.min(200, r.width * 0.42) / rx * 60;
+    var fall = [[0, 1], [.12, .9], [.25, .74], [.40, .52], [.55, .33], [.70, .18], [.84, .07], [1, 0]];
+    var stops = ['rgba(' + c + ',1) 0%', 'rgba(' + c + ',1) ' + core.toFixed(1) + '%'];
+    fall.forEach(function (f) { stops.push('rgba(' + c + ',' + f[1] + ') ' + (core + (100 - core) * f[0]).toFixed(1) + '%'); });
+    return 'radial-gradient(ellipse ' + rx.toFixed(0) + 'px ' + ry.toFixed(0) + 'px at ' + cx.toFixed(0) + 'px ' + cy.toFixed(0) + 'px, ' + stops.join(', ') + ')';
+  }
+  function setGlow(sec) {
+    if (glows.length < 2) return;
+    glowFor = sec;
+    if (!sec) { glows.forEach(function (g) { g.classList.remove('on'); }); return; }
+    var next = glows[gi ^ 1];
+    next.style.background = glowCss(sec);
+    next.classList.add('on'); glows[gi].classList.remove('on'); gi ^= 1;
+  }
+  window.addEventListener('resize', function () { if (glowFor) glows[gi].style.background = glowCss(glowFor); });
+
   var markQ = null;
   window.addEventListener('scroll', function () { if (!markQ) markQ = requestAnimationFrame(function () { markQ = null; markActive(); }); }, { passive: true });
   window.addEventListener('resize', markActive);
